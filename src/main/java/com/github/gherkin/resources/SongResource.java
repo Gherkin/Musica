@@ -13,7 +13,8 @@ import java.io.IOException;
 public class SongResource extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getContentType() != "application/json") {
+        String contentType = request.getContentType();
+        if(!request.getContentType().equalsIgnoreCase("application/json")) {
             response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
             return;
         }
