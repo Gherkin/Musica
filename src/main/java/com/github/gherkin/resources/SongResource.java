@@ -13,6 +13,10 @@ import java.io.IOException;
 public class SongResource extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getContentType() != "application/json") {
+            response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+            return;
+        }
 
         BufferedReader reader = request.getReader();
         String line;
@@ -30,6 +34,8 @@ public class SongResource extends HttpServlet {
             return;
         }
 
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/json");
         response.getOutputStream().write(song.toJSON().getBytes());
     }
 }
