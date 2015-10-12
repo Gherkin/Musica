@@ -22,6 +22,14 @@ public class SongResource extends HttpServlet {
             return;
         }
 
-        Song song = Song.fromJSON(line);
+        Song song;
+        try {
+            song = Song.fromJSON(line);
+        } catch(NumberFormatException exception) {
+            response.setStatus(422); // 422 Unprocessable Entity
+            return;
+        }
+
+        response.getOutputStream().write(song.toJSON().getBytes());
     }
 }
