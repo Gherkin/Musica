@@ -34,7 +34,7 @@ public class Song {
 
         result += "{";
         result += "\"id\":" + id + ",";
-        result += "\"name\":" + name + ",";
+        result += "\"name\":" + name + "}";
 
         return result;
     }
