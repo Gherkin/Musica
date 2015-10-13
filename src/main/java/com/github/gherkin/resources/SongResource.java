@@ -19,7 +19,7 @@ public class SongResource extends HttpServlet {
         Logger logger = Logger.getLogger("Musica");
         logger.log(Level.SEVERE, "Hello");
 
-        if(request.getContentType() != "application/json") {
+        if(!request.getContentType().equalsIgnoreCase("application/json")) {
             response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
             return;
         }
@@ -43,5 +43,10 @@ public class SongResource extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
         response.getOutputStream().write(song.toJSON().getBytes());
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.getOutputStream().write(request.getPathInfo().getBytes());
     }
 }

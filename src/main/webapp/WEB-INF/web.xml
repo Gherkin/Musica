@@ -13,7 +13,7 @@
 
     <servlet-mapping>
         <servlet-name>Song</servlet-name>
-        <url-pattern>/Song</url-pattern>
+        <url-pattern>/Song/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
