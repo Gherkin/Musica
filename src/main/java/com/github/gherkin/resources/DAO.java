@@ -6,6 +6,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.mysql.jdbc.Driver;
+
+
 public abstract class DAO {
     private static Connection connection;
     static private String url = "jdbc:mysql://localhost/musica";
@@ -13,6 +16,8 @@ public abstract class DAO {
     static private String password = "user";
 
     public static void initConnection() throws SQLException {
+        new Driver();
         connection = DriverManager.getConnection(url, user, password);
     }
+
 }

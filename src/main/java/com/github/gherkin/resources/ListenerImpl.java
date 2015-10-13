@@ -15,7 +15,7 @@ public class ListenerImpl implements ServletContextListener{
         try {
             DAO.initConnection();
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.getStackTrace().toString());
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
