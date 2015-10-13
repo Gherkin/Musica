@@ -11,7 +11,7 @@ import static com.github.gherkin.resources.DAO.*;
 public class ListenerImpl implements ServletContextListener{
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         Logger logger = Logger.getLogger("Musica");
-        logger.log(Level.ALL, "hello");
+        logger.log(Level.SEVERE, "hello");
         try {
             DAO.initConnection();
         } catch (SQLException e) {
