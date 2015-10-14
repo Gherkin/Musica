@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,6 +48,29 @@ public class SongResource extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.getOutputStream().write(request.getPathInfo().getBytes());
-    }
+        String path = request.getPathInfo();
+
+        if(path.endsWith("/"))
+            path.substring(1, path.length() - 1);
+        else
+            path.substring(1);
+
+        String[] pathParams = path.split("/");
+
+        int id;
+        try {
+            id = Integer.parseInt(pathParams[0]);
+        } catch(NumberFormatException e) {
+            response.setStatus(422); // 422 Unprocessable Entity
+            return;
+        }
+
+        Song song;
+        try {
+            song = DAO.retrieve(id);
+        } catch(SQLException e) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+
+    }   
 }
