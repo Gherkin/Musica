@@ -44,4 +44,14 @@ public abstract class DAO {
             throw e;
         }
     }
+
+    public static void insert(String name) throws SQLException {
+
+        String query = "INSERT INTO songs (id, name) VALUES (null, ?)";
+        PreparedStatement statement = connection.prepareStatement(query);
+
+        statement.setString(1, name);
+        statement.execute();
+        
+    }
 }
