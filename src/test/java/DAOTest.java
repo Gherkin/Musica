@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class DAOTest {
 
@@ -24,7 +25,7 @@ public class DAOTest {
             DAO.insert(song);
             Song song2 = DAO.retrieve(song.getId());
 
-            assertEquals(song, song2);
+            assertTrue(song.equals(song2));
 
             DAO.delete(song.getId());
         } catch (SQLException e) {
