@@ -69,4 +69,18 @@ public class Song {
 
         return song;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if(obj.getClass() != Song.class)
+            return false;
+
+        Song song = (Song) obj;
+        
+        if(this.getId() == song.getId() && this.getName() == song.getName())
+            return true;
+        else
+            return false;
+    }
 }
