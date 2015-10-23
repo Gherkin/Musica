@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class DAOTest {
 
@@ -18,7 +19,7 @@ public class DAOTest {
     }
 
     @Test
-    public void regularTest() throws SQLException {
+    public void regularTest() {
 
         try {
             Song song = new Song(4, "Test Song");
@@ -28,26 +29,56 @@ public class DAOTest {
             assertEquals(song, song2);
 
             DAO.delete(song.getId());
+
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+           fail(e.getMessage());
         }
     }
 
     @Test
-    public void nullIdTest() throws SQLException {
+    public void nullIdTest() {
 
-        Song song = new Song(null, "Test Song");
-        DAO.insert(song);
+        try {
+            Song song = new Song(null, "Test Song");
+            DAO.insert(song);
+
+        } catch(Exception e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test(expected = NullPointerException.class)
-    public void nullNameTest() throws SQLException, NullPointerException {
+    public void nullNameTest() {
 
-        Song song = new Song(34, null);
-        DAO.insert(song);
-        Song song2 = DAO.retrieve(song.getId());
+        try {
+            Song song = new Song(34, null);
+            DAO.insert(song);
+            Song song2 = DAO.retrieve(song.getId());
 
-        assertEquals(song, song2);
+            assertEquals(song, song2);
+
+        } catch(SQLException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void deleteTest() {
+
+        try {
+            Song song = new Song(40, "Test song");
+            DAO.insert(song);
+            Song song2 = DAO.retrieve(song.getId());
+
+            assertEquals(song, song2);
+
+            DAO.delete(song.getId());
+
+            song2 = DAO.retrieve(song.getId());
+
+        } catch(SQLException e) {
+            fail(e.getMessage());
+        }
+
     }
 }
