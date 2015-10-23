@@ -69,6 +69,9 @@ public abstract class DAO {
         try {
             String query = "DELETE FROM songs WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+
+            statement.execute();
 
         } catch(SQLException e) {
             logger.log(Level.SEVERE, "Exception thrown", e);
