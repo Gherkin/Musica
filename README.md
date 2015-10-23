@@ -1,7 +1,7 @@
 # Musica
 A simple Java-EE lab!
 
-### Dependencies
+### Requires
 MySQL
 
 Tomcat (or any other container)
