@@ -37,6 +37,7 @@ public abstract class DAO {
             Song song = new Song(id, results.getString("name"));
 
             return song;
+
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
             throw e;
@@ -45,18 +46,32 @@ public abstract class DAO {
 
     public static void insert(Song song) throws SQLException {
 
-        String query = "INSERT INTO songs (id, name) VALUES (?, ?)";
-        PreparedStatement statement = connection.prepareStatement(query);
+        try {
+            String query = "INSERT INTO songs (id, name) VALUES (?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
 
-        statement.setInt(1, song.getId());
-        statement.setString(2, song.getName());
-        statement.execute();
+            if (song.getId() == null)
+                statement.setNull(1, Types.NULL);
+            else
+                statement.setInt(1, song.getId());
+
+            statement.setString(2, song.getName());
+            statement.execute();
+
+        } catch(SQLException e) {
+            logger.log(Level.SEVERE, "Exception thrown", e);
+        }
 
     }
 
     public static void delete(int id) throws SQLException {
 
-        String query = "DELETE FROM songs WHERE id = ?";
-        PreparedStatement statement = connection.prepareStatement(query);
+        try {
+            String query = "DELETE FROM songs WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+        } catch(SQLException e) {
+            logger.log(Level.SEVERE, "Exception thrown", e);
+        }
     }
 }
