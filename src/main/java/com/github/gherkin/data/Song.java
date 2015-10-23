@@ -78,7 +78,7 @@ public class Song {
 
         Song song = (Song) obj;
 
-        if(this.getId() == song.getId() && this.getName() == song.getName())
+        if(this.getId() == song.getId() && this.getName().equals(song.getName()))
             return true;
         else
             return false;

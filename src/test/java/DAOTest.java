@@ -25,8 +25,6 @@ public class DAOTest {
             DAO.insert(song);
             Song song2 = DAO.retrieve(song.getId());
 
-            assertEquals(song.getId(), song2.getId());
-            assertEquals(song.getName(), song2.getName());
             assertEquals(song, song2);
 
             DAO.delete(song.getId());
