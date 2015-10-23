@@ -19,4 +19,7 @@ If using Tomcat, add a server to mavens settings xml with the id *TomcatServer*
   <password>{yourpassword}</password>
 </server>
 ```
-the user needs to have the *manager-script* role in Tomcat, defined in `TomcatDir/conf/tomcat-users.xml`
+The user needs to have the *manager-script* role in Tomcat, defined in `TomcatDir/conf/tomcat-users.xml`
+Then simply deploy to the running Tomcat server using
+
+`mvn tomcat7:deploy`
