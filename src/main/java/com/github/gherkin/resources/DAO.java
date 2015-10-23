@@ -24,7 +24,6 @@ public abstract class DAO {
     }
 
     public static Song retrieve(int id) throws SQLException {
-        logger.log(Level.SEVERE, "yo");
 
         try {
             String query = "SELECT * FROM songs WHERE id = ?";
@@ -34,8 +33,7 @@ public abstract class DAO {
             statement.execute();
             ResultSet results = statement.getResultSet();
 
-            results.absolute(2);
-            logger.log(Level.INFO, "" + results.getRow());
+            results.absolute(1);
             Song song = new Song(id, results.getString("name"));
 
             return song;
@@ -45,13 +43,20 @@ public abstract class DAO {
         }
     }
 
-    public static void insert(String name) throws SQLException {
+    public static void insert(Song song) throws SQLException {
 
-        String query = "INSERT INTO songs (id, name) VALUES (null, ?)";
+        String query = "INSERT INTO songs (id, name) VALUES (?, ?)";
         PreparedStatement statement = connection.prepareStatement(query);
 
-        statement.setString(1, name);
+        statement.setInt(1, song.getId());
+        statement.setString(2, song.getName());
         statement.execute();
-        
+
+    }
+
+    public static void delete(int id) throws SQLException {
+
+        String query = "DELETE FROM songs WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
     }
 }
