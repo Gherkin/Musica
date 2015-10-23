@@ -14,11 +14,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SongResource extends HttpServlet {
+
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
+    }
 
-        Logger logger = Logger.getLogger("Musica");
-        logger.log(Level.SEVERE, "Hello");
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        Logger logger = Logger.getLogger("Musica.Resource.Song.Post");
 
         if(!request.getContentType().equalsIgnoreCase("application/json")) {
             response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
@@ -36,9 +41,17 @@ public class SongResource extends HttpServlet {
         Song song;
         try {
             song = Song.fromJSON(line);
-        } catch(NumberFormatException exception) {
+        } catch(NumberFormatException e) {
             response.setStatus(422); // 422 Unprocessable Entity
+            logger.log(Level.SEVERE, e.getMessage(), e);
             return;
+        }
+
+        try {
+            DAO.insert(song);
+        } catch(SQLException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
 
         response.setStatus(HttpServletResponse.SC_OK);
@@ -48,29 +61,44 @@ public class SongResource extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Logger logger = Logger.getLogger("Musica.Resource.Song.Get");
         String path = request.getPathInfo();
-
         if(path.endsWith("/"))
-            path.substring(1, path.length() - 1);
+            path = path.substring(1, path.length() - 1);
         else
-            path.substring(1);
+            path = path.substring(1);
 
         String[] pathParams = path.split("/");
 
         int id;
         try {
             id = Integer.parseInt(pathParams[0]);
+
         } catch(NumberFormatException e) {
             response.setStatus(422); // 422 Unprocessable Entity
+            logger.log(Level.FINE, e.getMessage(), e);
             return;
         }
 
         Song song;
         try {
             song = DAO.retrieve(id);
-        } catch(SQLException e) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        }
+            response.getOutputStream().write(song.toJSON().getBytes());
 
-    }   
+        } catch(NullPointerException e) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            logger.log(Level.FINE, e.getMessage(), e);
+            return;
+
+        } catch(SQLException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            return;
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    }
 }
