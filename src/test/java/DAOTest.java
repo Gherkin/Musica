@@ -1,5 +1,6 @@
 import com.github.gherkin.data.Song;
 import com.github.gherkin.resources.DAO;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 
@@ -8,6 +9,12 @@ import java.sql.SQLException;
 import static org.junit.Assert.assertEquals;
 
 public class DAOTest {
+    
+    @BeforeClass
+    public void init() throws SQLException {
+
+        DAO.initConnection();
+    }
 
     @Test
     public void regularTest() throws SQLException {
