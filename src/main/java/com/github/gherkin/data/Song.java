@@ -1,5 +1,8 @@
 package com.github.gherkin.data;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Song {
     private Integer id;
     private String name;
@@ -54,8 +57,15 @@ public class Song {
 
         String id = valuePairs[0].split(":")[1];
 
-        song.setId(Integer.parseInt(id));
-        song.setName(valuePairs[1].split(":")[1]);
+
+        if(id.equals("null")) {
+            song.setId(null);
+        } else
+            song.setId(Integer.parseInt(id));
+
+        String name = valuePairs[1].split(":")[1];
+        name = name.substring(1, name.length() - 1);
+        song.setName(name);
 
         return song;
     }

@@ -29,7 +29,6 @@ public class SongResource extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
             return;
         }
-
         BufferedReader reader = request.getReader();
         String line;
 
@@ -38,6 +37,7 @@ public class SongResource extends HttpServlet {
             return;
         }
 
+        logger.log(Level.SEVERE, line);
         Song song;
         try {
             song = Song.fromJSON(line);
