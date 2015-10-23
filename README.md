@@ -10,6 +10,7 @@ Tomcat (or any other container)
 
 ### Building
 `mvn war:war`
+
 If using Tomcat, add a server to mavens settings xml with the id *TomcatServer*
 ```
 <server>
