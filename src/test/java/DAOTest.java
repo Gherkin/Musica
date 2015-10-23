@@ -9,9 +9,9 @@ import java.sql.SQLException;
 import static org.junit.Assert.assertEquals;
 
 public class DAOTest {
-    
+
     @BeforeClass
-    public void init() throws SQLException {
+    public static void init() throws SQLException {
 
         DAO.initConnection();
     }
