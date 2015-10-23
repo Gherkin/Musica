@@ -6,10 +6,10 @@ MySQL
 
 Tomcat (or any other container)
 
-### Installation
+#### Installation
 `$ mysql -u root -p < basedir/src/main/sql/CreateDatabase.sql`
 
-### Building
+#### Building
 `$ mvn war:war`
 
 If using Tomcat, add a server to mavens settings xml with the id *TomcatServer*
