@@ -16,7 +16,7 @@ public class Song {
         this.name = name;
     }
 
-    public Song(int id, String name) {
+    public Song(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -77,7 +77,7 @@ public class Song {
             return false;
 
         Song song = (Song) obj;
-        
+
         if(this.getId() == song.getId() && this.getName() == song.getName())
             return true;
         else
