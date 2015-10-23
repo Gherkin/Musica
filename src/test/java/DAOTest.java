@@ -42,6 +42,8 @@ public class DAOTest {
             Song song = new Song(null, "Test Song");
             DAO.insert(song);
 
+            //delete it
+
         } catch(Exception e) {
             fail(e.getMessage());
         }
@@ -57,33 +59,26 @@ public class DAOTest {
 
             assertEquals(song, song2);
 
+            DAO.delete(song.getId());
+
         } catch(SQLException e) {
             fail(e.getMessage());
         }
     }
 
-    @Test(expected = NullPointerException.class)
-    public void deleteTest() {
+    @Test(expected = SQLException.class)
+    public void deleteTest() throws SQLException {
 
-        try {
-            Song song = new Song(40, "Test song");
-            DAO.insert(song);
-            Song song2 = DAO.retrieve(song.getId());
+        Song song = new Song(40, "Test song");
+        DAO.insert(song);
+        Song song2 = DAO.retrieve(song.getId());
 
-            if(!song.equals(song2)) {
-                if (song.getId() != song2.getId())
-                    fail(String.format("song ids not equal, referring to regularTest(), id1 = %d, id2 = %d", song.getId(), song2.getId()));
-                else if(song.getName().equals(song2.getName()))
-                    fail(String.format("song names not equal, referring to regularTest(), name1 = %s, name2 = %s", song.getName(), song2.getName()));
-            }
-
-            DAO.delete(song.getId());
-
-            song2 = DAO.retrieve(song.getId());
-
-        } catch(SQLException e) {
-            fail(e.getMessage());
+        if(!song.equals(song2)) {
+           fail("songs arent equal");
         }
 
+        DAO.delete(song.getId());
+
+        song2 = DAO.retrieve(song.getId());
     }
 }
