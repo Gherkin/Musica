@@ -1,17 +1,45 @@
+import com.github.gherkin.data.Song;
 import com.github.gherkin.resources.DAO;
 import org.junit.Test;
 
 
 import java.sql.SQLException;
 
+import static org.junit.Assert.assertEquals;
+
 public class DAOTest {
-    @Test(expected = SQLException.class)
-    public void retrieveTest() {
+
+    @Test
+    public void regularTest() throws SQLException {
+
         try {
-            DAO.retrieve(34214);
+            Song song = new Song(4, "Test Song");
+            DAO.insert(song);
+            Song song2 = DAO.retrieve(song.getId());
+
+            assertEquals(song, song2);
+
+            DAO.delete(song.getId());
         } catch (SQLException e) {
             e.printStackTrace();
-            org.junit.Assert.assertEquals(e.getMessage(), "yo");
+            throw e;
         }
+    }
+
+    @Test
+    public void nullIdTest() throws SQLException {
+
+        Song song = new Song(null, "Test Song");
+        DAO.insert(song);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullNameTest() throws SQLException, NullPointerException {
+
+        Song song = new Song(34, null);
+        DAO.insert(song);
+        Song song2 = DAO.retrieve(song.getId());
+
+        assertEquals(song, song2);
     }
 }
