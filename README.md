@@ -3,6 +3,7 @@ A simple Java-EE lab!
 
 ### Dependencies
 MySQL
+
 Tomcat (or any other container)
 
 ### Installation
