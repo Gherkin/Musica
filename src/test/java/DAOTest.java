@@ -70,7 +70,12 @@ public class DAOTest {
             DAO.insert(song);
             Song song2 = DAO.retrieve(song.getId());
 
-            assertEquals(song, song2);
+            if(!song.equals(song2)) {
+                if (song.getId() != song2.getId())
+                    fail(String.format("song ids not equal, referring to regularTest(), id1 = %d, id2 = %d", song.getId(), song2.getId()));
+                else if(song.getName().equals(song2.getName()))
+                    fail(String.format("song names not equal, referring to regularTest(), name1 = %s, name2 = %s", song.getName(), song2.getName()));
+            }
 
             DAO.delete(song.getId());
 
